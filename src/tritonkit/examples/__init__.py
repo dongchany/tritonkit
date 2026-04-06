@@ -15,4 +15,9 @@ try:
 except ImportError:
     swiglu_fused = None
 
-__all__ = ["rmsnorm_fused", "gemm_fp16", "swiglu_fused"]
+try:
+    from tritonkit.examples.flash_attention import flash_attention
+except ImportError:
+    flash_attention = None
+
+__all__ = ["rmsnorm_fused", "gemm_fp16", "swiglu_fused", "flash_attention"]
