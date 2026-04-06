@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: tritonkit
+Version: 0.1.0
+Summary: Build, test, and benchmark Triton kernels
+Author: Dongcheng Ye
+License: Apache-2.0
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: triton>=3.6.0
+Requires-Dist: torch>=2.10.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: tabulate>=0.9.0
+Provides-Extra: plot
+Requires-Dist: matplotlib>=3.7.0; extra == "plot"
+Provides-Extra: bench
+Requires-Dist: liger-kernel; extra == "bench"
+Requires-Dist: flag-gems; extra == "bench"
+Requires-Dist: flash-attn; extra == "bench"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: ruff>=0.4.0; extra == "dev"
+Requires-Dist: black>=24.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Provides-Extra: all
+Requires-Dist: tritonkit[bench,dev,plot]; extra == "all"

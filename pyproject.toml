@@ -1,0 +1,56 @@
+[project]
+name = "tritonkit"
+version = "0.1.0"
+description = "Build, test, and benchmark Triton kernels"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "Dongcheng Ye" }]
+
+dependencies = [
+    "triton>=3.6.0",
+    "torch>=2.10.0",
+    "numpy>=1.24.0",
+    "tabulate>=0.9.0",
+]
+
+[project.optional-dependencies]
+plot = [
+    "matplotlib>=3.7.0",
+]
+bench = [
+    "liger-kernel",
+    "flag-gems",
+    "flash-attn",
+]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.4.0",
+    "black>=24.0",
+    "mypy>=1.0",
+]
+all = [
+    "tritonkit[plot,bench,dev]",
+]
+
+[project.scripts]
+tritonkit = "tritonkit.cli.main:main"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.black]
+target-version = ["py310"]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
