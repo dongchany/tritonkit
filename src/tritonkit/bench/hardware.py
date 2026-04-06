@@ -73,7 +73,7 @@ def detect_hardware() -> HardwareFingerprint:
         gpu_name=props.name,
         compute_capability=f"{props.major}.{props.minor}",
         driver_version=driver,
-        memory_gb=round(props.total_mem / 1e9, 2),
+        memory_gb=round(getattr(props, "total_memory", getattr(props, "total_mem", 0)) / 1e9, 2),
         sm_count=props.multi_processor_count,
         sm_clock_mhz=sm_clock,
         mem_clock_mhz=mem_clock,
