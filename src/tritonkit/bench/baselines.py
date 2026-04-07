@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sys
+import types
 from collections.abc import Callable
 
 import torch
@@ -23,6 +25,24 @@ class BaselineRegistry:
     @classmethod
     def list_operations(cls) -> list[str]:
         return list(cls._baselines.keys())
+
+
+def _ensure_dtensor_stub() -> None:
+    """Install a minimal DTensor stub for optional integrations on older Torch builds."""
+    distributed = getattr(torch, "distributed", None)
+    if distributed is None or hasattr(distributed, "tensor"):
+        return
+
+    module_name = "torch.distributed.tensor"
+    tensor_module = types.ModuleType(module_name)
+
+    class DTensor:  # pragma: no cover - compatibility shim
+        pass
+
+    tensor_module.DTensor = DTensor
+    tensor_module.__all__ = ["DTensor"]
+    sys.modules.setdefault(module_name, tensor_module)
+    setattr(distributed, "tensor", tensor_module)
 
 
 def _register_builtins() -> None:
@@ -53,9 +73,22 @@ def _register_builtins() -> None:
 
     # Optional: Liger-Kernel
     try:
+        _ensure_dtensor_stub()
         from liger_kernel.ops.rms_norm import LigerRMSNormFunction
 
-        BaselineRegistry.register("rmsnorm", "liger", LigerRMSNormFunction.apply)
+        def liger_rmsnorm(
+            x: torch.Tensor,
+            weight: torch.Tensor,
+            eps: float = 1e-6,
+        ) -> torch.Tensor:
+            try:
+                return LigerRMSNormFunction.apply(x, weight, eps)
+            except AttributeError as exc:
+                raise RuntimeError(
+                    "Liger RMSNorm is incompatible with this torch.distributed build"
+                ) from exc
+
+        BaselineRegistry.register("rmsnorm", "liger", liger_rmsnorm)
     except ImportError:
         pass
 

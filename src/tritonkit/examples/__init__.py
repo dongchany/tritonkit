@@ -20,4 +20,9 @@ try:
 except ImportError:
     flash_attention = None
 
-__all__ = ["rmsnorm_fused", "gemm_fp16", "swiglu_fused", "flash_attention"]
+try:
+    from tritonkit.examples.int8_gemm import int8_gemm
+except ImportError:
+    int8_gemm = None
+
+__all__ = ["rmsnorm_fused", "gemm_fp16", "swiglu_fused", "flash_attention", "int8_gemm"]

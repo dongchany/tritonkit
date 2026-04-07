@@ -5,12 +5,14 @@ from typing import Callable
 
 from tabulate import tabulate
 
-from suites import activation, gemm, norm, softmax
+from suites import activation, attention, gemm, norm, quantize, softmax
 
 SUITES: list[tuple[str, Callable]] = [
     ("norm", norm.run_suite),
     ("activation", activation.run_suite),
+    ("attention", attention.run_suite),
     ("gemm", gemm.run_suite),
+    ("quantize", quantize.run_suite),
     ("softmax", softmax.run_suite),
 ]
 
