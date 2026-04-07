@@ -10,33 +10,14 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 import torch
-import torch.nn.functional as F
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 from tritonkit.examples import rmsnorm_fused
 from tritonkit.testing import LLM_SHAPES
 
 EPS = 1e-6
 RESULTS_DIR = ROOT / "benchmarks" / "results"
-
-
-def pytorch_manual_rmsnorm(
-    x: torch.Tensor,
-    weight: torch.Tensor,
-    eps: float = EPS,
-) -> torch.Tensor:
-    x_float = x.to(torch.float32)
-    weight_float = weight.to(torch.float32)
-    variance = x_float.pow(2).mean(dim=-1, keepdim=True)
-    return (x_float * torch.rsqrt(variance + eps) * weight_float).to(x.dtype)
-
-
-def functional_rms_norm(
-    x: torch.Tensor,
-    weight: torch.Tensor,
-    eps: float = EPS,
-) -> torch.Tensor:
-    return F.rms_norm(x, (x.shape[-1],), weight=weight, eps=eps)
 
 
 def input_generator(
@@ -67,12 +48,8 @@ def run_suite():
     if rmsnorm_fused is None:
         raise RuntimeError("tritonkit.examples.rmsnorm_fused is unavailable.")
 
-    candidates = {
-        "tritonkit_rmsnorm_fused": lambda x, weight: rmsnorm_fused(x, weight, eps=EPS),
-        "pytorch_manual_rmsnorm": pytorch_manual_rmsnorm,
-    }
-    if hasattr(F, "rms_norm"):
-        candidates["torch_functional_rms_norm"] = functional_rms_norm
+    candidates = {"tritonkit_rmsnorm_fused": lambda x, weight: rmsnorm_fused(x, weight, eps=EPS)}
+    candidates.update(BaselineRegistry.get("rmsnorm"))
 
     result = compare(
         candidates=candidates,
@@ -96,4 +73,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -12,6 +12,7 @@ if str(SRC) not in sys.path:
 import torch
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 from tritonkit.examples import int8_gemm
 
 RESULTS_DIR = ROOT / "benchmarks" / "results"
@@ -41,18 +42,6 @@ def tritonkit_int8_gemm(
 ) -> torch.Tensor:
     del a_fp16, b_fp16
     return int8_gemm(a_int8, b_int8, scale_a, scale_b)
-
-
-def torch_mm_fp16(
-    a_int8: torch.Tensor,
-    b_int8: torch.Tensor,
-    scale_a: torch.Tensor,
-    scale_b: torch.Tensor,
-    a_fp16: torch.Tensor,
-    b_fp16: torch.Tensor,
-) -> torch.Tensor:
-    del a_int8, b_int8, scale_a, scale_b
-    return torch.mm(a_fp16, b_fp16)
 
 
 def input_generator(
@@ -100,11 +89,11 @@ def run_suite():
     if int8_gemm is None:
         raise RuntimeError("tritonkit.examples.int8_gemm is unavailable.")
 
+    candidates = {"tritonkit_int8_gemm": tritonkit_int8_gemm}
+    candidates.update(BaselineRegistry.get("quantize_gemm"))
+
     result = compare(
-        candidates={
-            "tritonkit_int8_gemm": tritonkit_int8_gemm,
-            "torch_mm_fp16": torch_mm_fp16,
-        },
+        candidates=candidates,
         shapes=GEMM_SHAPES,
         dtypes=[torch.float16],
         kernel_name="quantize",

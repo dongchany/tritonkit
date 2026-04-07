@@ -10,17 +10,13 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 import torch
-import torch.nn.functional as F
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 from tritonkit.examples import swiglu_fused
 from tritonkit.testing import LLM_SHAPES
 
 RESULTS_DIR = ROOT / "benchmarks" / "results"
-
-
-def pytorch_swiglu(gate: torch.Tensor, up: torch.Tensor) -> torch.Tensor:
-    return F.silu(gate) * up
 
 
 def input_generator(
@@ -52,11 +48,11 @@ def run_suite():
     if swiglu_fused is None:
         raise RuntimeError("tritonkit.examples.swiglu_fused is unavailable.")
 
+    candidates = {"tritonkit_swiglu_fused": swiglu_fused}
+    candidates.update(BaselineRegistry.get("swiglu"))
+
     result = compare(
-        candidates={
-            "tritonkit_swiglu_fused": swiglu_fused,
-            "pytorch_swiglu": pytorch_swiglu,
-        },
+        candidates=candidates,
         shapes=LLM_SHAPES,
         dtypes=[torch.float16],
         kernel_name="swiglu",
@@ -77,4 +73,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

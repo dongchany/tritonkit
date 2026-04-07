@@ -12,6 +12,7 @@ if str(SRC) not in sys.path:
 import torch
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 from tritonkit.examples import gemm_fp16
 
 RESULTS_DIR = ROOT / "benchmarks" / "results"
@@ -41,8 +42,6 @@ def flop_counter(shape: tuple[int, int, int], dtype: torch.dtype) -> int:
     del dtype
     m, n, k = shape
     return 2 * m * n * k
-
-
 def _result_path(result) -> Path:
     slug = re.sub(r"[^a-z0-9]+", "_", result.hardware.gpu_name.lower()).strip("_")
     return RESULTS_DIR / f"{result.kernel}_{slug}.json"
@@ -54,11 +53,11 @@ def run_suite():
     if gemm_fp16 is None:
         raise RuntimeError("tritonkit.examples.gemm_fp16 is unavailable.")
 
+    candidates = {"tritonkit_gemm_fp16": gemm_fp16}
+    candidates.update(BaselineRegistry.get("gemm"))
+
     result = compare(
-        candidates={
-            "tritonkit_gemm_fp16": gemm_fp16,
-            "torch_mm": torch.mm,
-        },
+        candidates=candidates,
         shapes=GEMM_SHAPES,
         dtypes=[torch.float16],
         kernel_name="gemm",
@@ -79,4 +78,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

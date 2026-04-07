@@ -10,9 +10,9 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 import torch
-import torch.nn.functional as F
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 from tritonkit.examples import flash_attention
 
 RESULTS_DIR = ROOT / "benchmarks" / "results"
@@ -32,17 +32,6 @@ def tritonkit_flash_attention(
     causal_flag: torch.Tensor,
 ) -> torch.Tensor:
     return flash_attention(q, k, v, causal=bool(causal_flag.item()))
-
-
-def pytorch_sdpa(
-    q: torch.Tensor,
-    k: torch.Tensor,
-    v: torch.Tensor,
-    causal_flag: torch.Tensor,
-) -> torch.Tensor:
-    return F.scaled_dot_product_attention(q, k, v, is_causal=bool(causal_flag.item()))
-
-
 def input_generator(
     shape: tuple[int, int, int, int, int],
     dtype: torch.dtype,
@@ -74,11 +63,11 @@ def run_suite():
     if flash_attention is None:
         raise RuntimeError("tritonkit.examples.flash_attention is unavailable.")
 
+    candidates = {"tritonkit_flash_attention": tritonkit_flash_attention}
+    candidates.update(BaselineRegistry.get("attention"))
+
     result = compare(
-        candidates={
-            "tritonkit_flash_attention": tritonkit_flash_attention,
-            "torch_sdpa": pytorch_sdpa,
-        },
+        candidates=candidates,
         shapes=ATTENTION_CASES,
         dtypes=[torch.float16],
         kernel_name="attention",

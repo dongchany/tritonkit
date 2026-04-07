@@ -14,6 +14,7 @@ import triton
 import triton.language as tl
 
 from tritonkit.bench import compare
+from tritonkit.bench.baselines import BaselineRegistry
 
 RESULTS_DIR = ROOT / "benchmarks" / "results"
 ATTENTION_SCORE_SHAPES = [
@@ -68,8 +69,6 @@ def triton_softmax(x: torch.Tensor) -> torch.Tensor:
         num_warps=num_warps,
     )
     return y.reshape(original_shape)
-
-
 def input_generator(
     shape: tuple[int, ...],
     dtype: torch.dtype,
@@ -95,11 +94,11 @@ def run_suite():
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required to run benchmarks.")
 
+    candidates = {"triton_softmax": triton_softmax}
+    candidates.update(BaselineRegistry.get("softmax"))
+
     result = compare(
-        candidates={
-            "torch_softmax": lambda x: torch.softmax(x, dim=-1),
-            "triton_softmax": triton_softmax,
-        },
+        candidates=candidates,
         shapes=ATTENTION_SCORE_SHAPES,
         dtypes=[torch.float16],
         kernel_name="softmax",
@@ -120,4 +119,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
