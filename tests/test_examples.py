@@ -2,7 +2,43 @@ import pytest
 import torch
 import torch.nn.functional as F
 
-from tritonkit.examples import gemm_fp16, int8_gemm, rmsnorm_fused, swiglu_fused
+from tritonkit.examples import gemm_fp16, int8_gemm, rmsnorm_fused, swiglu_fused, w4a16_gemm
+
+
+def _quantize_pack_int4(
+    weight: torch.Tensor,
+    group_size: int,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    k, n = weight.shape
+    if k % group_size != 0:
+        raise ValueError("K must be divisible by group_size")
+
+    qmax = 7.0
+    num_groups = k // group_size
+
+    weight_groups = weight.to(torch.float32).reshape(num_groups, group_size, n)
+    max_abs = weight_groups.abs().amax(dim=1)
+    scales = torch.where(
+        max_abs > 0,
+        max_abs / qmax,
+        torch.ones_like(max_abs),
+    ).to(torch.float16)
+
+    quantized = torch.clamp(
+        torch.round(weight_groups / scales[:, None, :].to(torch.float32)),
+        -8,
+        7,
+    ).to(torch.int32)
+    dequantized = (quantized.to(torch.float16) * scales[:, None, :]).reshape(k, n)
+
+    packed = torch.where(quantized < 0, quantized + 16, quantized).reshape(k, n)
+    packed = packed.reshape(k // 8, 8, n)
+
+    qweight = torch.zeros((k // 8, n), device=weight.device, dtype=torch.int32)
+    for idx in range(8):
+        qweight |= packed[:, idx, :] << (idx * 4)
+
+    return qweight, scales.contiguous(), dequantized.contiguous()
 
 
 def test_rmsnorm_fused(device: str) -> None:
@@ -63,5 +99,25 @@ def test_int8_gemm(device: str) -> None:
 
     expected = torch.mm(a_int8.to(torch.float16) * scale_a, b_int8.to(torch.float16) * scale_b)
     actual = int8_gemm(a_int8, b_int8, scale_a.to(torch.float16), scale_b.to(torch.float16))
+
+    torch.testing.assert_close(actual, expected, atol=0.5, rtol=0.1)
+
+
+def test_w4a16_gemm(device: str) -> None:
+    if w4a16_gemm is None:
+        pytest.skip("w4a16_gemm is unavailable")
+
+    torch.manual_seed(0)
+
+    m, k, n = 96, 256, 160
+    group_size = 128
+
+    a = torch.randn((m, k), device=device, dtype=torch.float16)
+    weight = torch.randn((k, n), device=device, dtype=torch.float16)
+
+    qweight, scales, dequantized = _quantize_pack_int4(weight, group_size=group_size)
+
+    expected = torch.mm(a, dequantized)
+    actual = w4a16_gemm(a, qweight, scales, group_size=group_size)
 
     torch.testing.assert_close(actual, expected, atol=0.5, rtol=0.1)
