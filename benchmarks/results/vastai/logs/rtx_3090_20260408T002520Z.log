@@ -1,0 +1,22 @@
+[00:25:20] === TritonKit vast.ai benchmark run ===
+[00:25:20] GPU filter: gpu_name=RTX_3090
+[00:25:20] GPU label: rtx_3090
+[00:25:20] Max price: $0.2/hr
+[00:25:20] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[00:25:20] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_3090
+[00:25:27] Account credit: $574.79
+[00:25:27] Searching for offers matching: gpu_name=RTX_3090, max $0.2/hr
+[00:25:28] Selected offer: 33928580 at $0.1081/hr
+[00:25:28] Creating instance...
+[00:25:30] Instance created: 34337832
+[00:25:30] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741488, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775607931.0398858, "deleted_at": null}'}
+[00:25:31] Waiting for instance to be ready...
+[00:25:32]   status: None
+[00:25:39]   status: None
+[00:25:45]   status: None
+[00:25:51]   status: None
+[00:25:58]   status: None
+[00:26:04]   status: None
+[00:26:11]   status: None
+[00:26:17]   status: None

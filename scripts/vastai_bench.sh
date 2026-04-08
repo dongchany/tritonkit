@@ -80,24 +80,44 @@ log "Account credit: \$$CREDIT"
 log "Searching for offers matching: $GPU_FILTER, max \$$MAX_PRICE_PER_HOUR/hr"
 
 # Use --raw to get full JSON, write to tempfile to avoid truncation
+# Order by score (composite of bandwidth, reliability, CPU/RAM, GPU perf)
+# instead of dph_total (cheapest), since faster instances reduce total cost.
+# Optional env vars:
+#   OFFER_ID=<id>      explicitly use this offer (skip search)
+#   SKIP_HOSTS=1,2,3   comma-separated host_ids to exclude
 OFFER_JSON_FILE=$(mktemp)
-$VASTAI search offers "$GPU_FILTER verified=true rentable=true dph_total<$MAX_PRICE_PER_HOUR cuda_max_good>=12.6 disk_space>=$DISK_GB inet_down>=100 num_gpus=1" \
-    --order "dph_total" --raw > "$OFFER_JSON_FILE" 2>&1
 
-PARSE_RESULT=$(python3 -c "
-import json
+if [[ -n "${OFFER_ID:-}" ]]; then
+    log "Using explicit OFFER_ID=$OFFER_ID"
+    PARSE_RESULT="$OFFER_ID 0.0000 OK"
+else
+    $VASTAI search offers "$GPU_FILTER verified=true rentable=true dph_total<$MAX_PRICE_PER_HOUR cuda_max_good>=12.6 disk_space>=$DISK_GB inet_down>=100 num_gpus=1" \
+        --order "score-" --raw > "$OFFER_JSON_FILE" 2>&1
+
+    PARSE_RESULT=$(python3 -c "
+import json, os
 with open('$OFFER_JSON_FILE') as f:
     try:
         data = json.load(f)
     except Exception as e:
         print(f'NONE NONE PARSE_ERROR_{e}')
         exit(0)
-if not data:
+skip = set()
+skip_env = os.environ.get('SKIP_HOSTS', '')
+if skip_env:
+    for x in skip_env.split(','):
+        x = x.strip()
+        if x:
+            try: skip.add(int(x))
+            except ValueError: pass
+filtered = [o for o in data if int(o.get('host_id', 0)) not in skip]
+if not filtered:
     print('NONE NONE EMPTY')
 else:
-    o = data[0]
-    print(f\"{o['id']} {o['dph_total']:.4f} OK\")
+    o = filtered[0]
+    print(f\"{o['id']} {o['dph_total']:.4f} host={o.get('host_id','?')}_score={o.get('score',0):.0f}_net={o.get('inet_down',0):.0f}\")
 ")
+fi
 
 OFFER_ID=$(echo "$PARSE_RESULT" | awk '{print $1}')
 OFFER_PRICE=$(echo "$PARSE_RESULT" | awk '{print $2}')

@@ -1,0 +1,55 @@
+[00:20:12] === TritonKit vast.ai benchmark run ===
+[00:20:12] GPU filter: gpu_name=RTX_3090
+[00:20:12] GPU label: rtx_3090
+[00:20:12] Max price: $0.7/hr
+[00:20:12] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[00:20:12] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_3090
+[00:20:16] Account credit: $574.86
+[00:20:16] Searching for offers matching: gpu_name=RTX_3090, max $0.7/hr
+[00:20:17] Selected offer: 33928578 at $0.1081/hr
+[00:20:17] Creating instance...
+[00:20:19] Instance created: 34337668
+[00:20:19] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741481, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775607620.1752427, "deleted_at": null}'}
+[00:20:20] Waiting for instance to be ready...
+[00:20:21]   status: None
+[00:20:28]   status: None
+[00:20:35]   status: None
+[00:20:41]   status: None
+[00:20:47]   status: None
+[00:20:54]   status: None
+[00:21:00]   status: None
+[00:21:06]   status: None
+[00:21:12]   status: None
+[00:21:19]   status: None
+[00:21:25]   status: None
+[00:21:32]   status: None
+[00:21:38]   status: None
+[00:21:44]   status: None
+[00:21:50]   status: None
+[00:21:57]   status: None
+[00:22:03]   status: None
+[00:22:10]   status: None
+[00:22:16]   status: None
+[00:22:23]   status: None
+[00:22:29]   status: None
+[00:22:35]   status: None
+[00:22:41]   status: None
+[00:22:48]   status: None
+[00:22:54]   status: None
+[00:23:00]   status: None
+[00:23:07]   status: None
+[00:23:13]   status: None
+[00:23:19]   status: None
+[00:23:26]   status: None
+[00:23:32]   status: None
+[00:23:38]   status: None
+[00:23:45]   status: None
+[00:23:51]   status: None
+[00:23:57]   status: None
+[00:24:04]   status: None
+[00:24:11]   status: None
+[00:24:17]   status: None
+[00:24:23]   status: None
+[00:24:30]   status: None
+[00:24:36]   status: None

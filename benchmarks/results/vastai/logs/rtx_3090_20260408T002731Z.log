@@ -1,0 +1,85 @@
+[00:27:31] === TritonKit vast.ai benchmark run ===
+[00:27:31] GPU filter: gpu_name=RTX_3090
+[00:27:31] GPU label: rtx_3090
+[00:27:31] Max price: $0.4/hr
+[00:27:31] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[00:27:31] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_3090
+[00:27:34] Account credit: $574.79
+[00:27:34] Searching for offers matching: gpu_name=RTX_3090, max $0.4/hr
+[00:27:36] Selected offer: 25531202 at $0.1347/hr
+[00:27:36] Creating instance...
+[00:27:37] Instance created: 34337957
+[00:27:37] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741507, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775608058.684743, "deleted_at": null}'}
+[00:27:39] Waiting for instance to be ready...
+[00:27:40]   status: None
+[00:27:46]   status: None
+[00:27:52]   status: loading
+[00:27:59]   status: loading
+[00:28:05]   status: running
+[00:28:07] SSH: root@108.76.208.51:45236
+[00:28:07] Waiting for SSH to be reachable...
+[00:28:30] SSH ready
+[00:28:30] Cloning tritonkit and running benchmarks...
+Cloning into 'tritonkit'...
+=== checking existing torch ===
+2.5.1+cu124 12.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== environment ===
+NVIDIA GeForce RTX 3090, 565.57.01, 210 MHz, 405 MHz, 24576 MiB
+torch 2.5.1+cu124 cuda 12.4
+triton 3.1.0
+=== running benchmarks ===
+WARNING[XFORMERS]: xFormers can't load C++/CUDA extensions. xFormers was built for:
+    PyTorch 2.10.0+cu128 with CUDA 1208 (you have 2.5.1+cu124)
+    Python  3.10.19 (you have 3.11.10)
+  Please reinstall xformers (see https://github.com/facebookresearch/xformers#installing-xformers)
+  Memory-efficient attention, SwiGLU, sparse and more won't be available.
+  Set XFORMERS_MORE_DETAILS=1 for more details
+Results exported to /workspace/tritonkit/benchmarks/results/rmsnorm_nvidia_geforce_rtx_3090.json
+Results exported to /workspace/tritonkit/benchmarks/results/swiglu_nvidia_geforce_rtx_3090.json
+Results exported to /workspace/tritonkit/benchmarks/results/attention_nvidia_geforce_rtx_3090.json
+Results exported to /workspace/tritonkit/benchmarks/results/gemm_nvidia_geforce_rtx_3090.json
+Results exported to /workspace/tritonkit/benchmarks/results/quantize_nvidia_geforce_rtx_3090.json
+Results exported to /workspace/tritonkit/benchmarks/results/softmax_nvidia_geforce_rtx_3090.json
+
+=== benchmark summary ===
+Suite       Kernel       Measurements  Implementations                                              Export
+----------  ---------  --------------  -----------------------------------------------------------  ---------------------------------------------------------
+norm        rmsnorm                36  liger, pytorch, pytorch_functional, tritonkit_rmsnorm_fused  benchmarks/results/rmsnorm_nvidia_geforce_rtx_3090.json
+activation  swiglu                 18  pytorch, tritonkit_swiglu_fused                              benchmarks/results/swiglu_nvidia_geforce_rtx_3090.json
+attention   attention              16  pytorch_sdpa, tritonkit_flash_attention                      benchmarks/results/attention_nvidia_geforce_rtx_3090.json
+gemm        gemm                   24  pytorch_cublas, tritonkit_gemm_fp16                          benchmarks/results/gemm_nvidia_geforce_rtx_3090.json
+quantize    quantize                8  torch_mm_fp16, tritonkit_int8_gemm                           benchmarks/results/quantize_nvidia_geforce_rtx_3090.json
+softmax     softmax                12  pytorch, triton_softmax                                      benchmarks/results/softmax_nvidia_geforce_rtx_3090.json
+total 52
+drwxr-xr-x 3 root root 4096 Apr  8 00:29 .
+drwxr-xr-x 4 root root   53 Apr  8 00:28 ..
+-rw-r--r-- 1 root root    0 Apr  8 00:28 .gitkeep
+-rw-r--r-- 1 root root 3644 Apr  8 00:28 REPORT.md
+-rw-r--r-- 1 root root 4854 Apr  8 00:29 attention_nvidia_geforce_rtx_3090.json
+-rw-r--r-- 1 root root 6525 Apr  8 00:29 gemm_nvidia_geforce_rtx_3090.json
+-rw-r--r-- 1 root root 2564 Apr  8 00:29 quantize_nvidia_geforce_rtx_3090.json
+-rw-r--r-- 1 root root 9195 Apr  8 00:28 rmsnorm_nvidia_geforce_rtx_3090.json
+-rw-r--r-- 1 root root 3690 Apr  8 00:29 softmax_nvidia_geforce_rtx_3090.json
+-rw-r--r-- 1 root root 4912 Apr  8 00:29 swiglu_nvidia_geforce_rtx_3090.json
+drwxr-xr-x 9 root root  106 Apr  8 00:28 vastai
+[00:29:31] Pulling results back...
+total 52
+drwxrwxr-x  2 dong dong 4096 Apr  8 08:29 .
+drwxrwxr-x 10 dong dong 4096 Apr  8 08:15 ..
+-rw-r--r--  1 dong dong 4854 Apr  8 08:29 attention_nvidia_geforce_rtx_3090.json
+-rw-r--r--  1 dong dong 6525 Apr  8 08:29 gemm_nvidia_geforce_rtx_3090.json
+-rw-r--r--  1 dong dong 2564 Apr  8 08:29 quantize_nvidia_geforce_rtx_3090.json
+-rw-r--r--  1 dong dong 9195 Apr  8 08:29 rmsnorm_nvidia_geforce_rtx_3090.json
+-rw-r--r--  1 dong dong 3690 Apr  8 08:29 softmax_nvidia_geforce_rtx_3090.json
+-rw-r--r--  1 dong dong 4912 Apr  8 08:29 swiglu_nvidia_geforce_rtx_3090.json
+[00:29:38] Benchmark complete. Trap will destroy instance now.
+[00:29:38] DESTROYING instance 34337957 (cost stops now)
+destroying instance 34337957.
+[00:29:44] Confirmed: instance 34337957 destroyed
