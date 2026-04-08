@@ -1,0 +1,9 @@
+[23:51:35] === TritonKit vast.ai benchmark run ===
+[23:51:35] GPU filter: gpu_name=RTX_4090
+[23:51:35] GPU label: rtx_4090
+[23:51:35] Max price: $0.5/hr
+[23:51:35] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[23:51:35] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_4090
+[23:51:38] Account credit: $575.28
+[23:51:38] Searching for offers matching: gpu_name=RTX_4090, max $0.5/hr
+[23:51:40] ERROR: No matching offers found (PARSE_ERROR_Expecting)

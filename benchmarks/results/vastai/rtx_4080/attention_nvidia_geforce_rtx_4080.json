@@ -1,0 +1,267 @@
+{
+  "version": "0.1.0",
+  "kernel": "attention",
+  "hardware": {
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "compute_capability": "8.9",
+    "driver_version": "570.190",
+    "memory_gb": 16.73,
+    "sm_count": 76,
+    "sm_clock_mhz": 2880,
+    "mem_clock_mhz": 10801,
+    "pcie_gen": "4",
+    "peak_bandwidth_gbps": 673.21,
+    "peak_tflops_fp16": 107.12
+  },
+  "software": {
+    "triton": "3.1.0",
+    "cuda": "12.4",
+    "pytorch": "2.5.1+cu124",
+    "python": "3.11.10",
+    "tritonkit": "0.1.0"
+  },
+  "mode": "default",
+  "timestamp": "2026-04-08T00:07:18.194392+00:00",
+  "results": [
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        512,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 508.93,
+      "p20_us": 505.86,
+      "p80_us": 510.98,
+      "tflops": 2.11
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        512,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 452.51,
+      "p20_us": 449.54,
+      "p80_us": 454.66,
+      "tflops": 2.37
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        512,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 508.13,
+      "p20_us": 504.99,
+      "p80_us": 510.66,
+      "tflops": 1.06
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        512,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 451.58,
+      "p20_us": 449.54,
+      "p80_us": 453.63,
+      "tflops": 1.19
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        1024,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 547.9,
+      "p20_us": 544.77,
+      "p80_us": 549.89,
+      "tflops": 7.84
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        1024,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 490.5,
+      "p20_us": 488.45,
+      "p80_us": 493.57,
+      "tflops": 8.76
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        1024,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 549.89,
+      "p20_us": 546.82,
+      "p80_us": 551.94,
+      "tflops": 3.91
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        1024,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 487.55,
+      "p20_us": 484.35,
+      "p80_us": 490.5,
+      "tflops": 4.4
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        2048,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 679.94,
+      "p20_us": 676.86,
+      "p80_us": 681.98,
+      "tflops": 25.27
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        2048,
+        64,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 639.86,
+      "p20_us": 635.9,
+      "p80_us": 641.95,
+      "tflops": 26.85
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        2,
+        8,
+        2048,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 683.01,
+      "p20_us": 679.94,
+      "p80_us": 684.03,
+      "tflops": 12.58
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        2,
+        8,
+        2048,
+        64,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 585.3,
+      "p20_us": 580.61,
+      "p80_us": 592.9,
+      "tflops": 14.68
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        4,
+        16,
+        1024,
+        128,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 888.83,
+      "p20_us": 885.76,
+      "p80_us": 890.88,
+      "tflops": 38.66
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        4,
+        16,
+        1024,
+        128,
+        0
+      ],
+      "dtype": "float16",
+      "median_us": 794.62,
+      "p20_us": 791.55,
+      "p80_us": 796.56,
+      "tflops": 43.24
+    },
+    {
+      "implementation": "tritonkit_flash_attention",
+      "shape": [
+        4,
+        16,
+        1024,
+        128,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 892.75,
+      "p20_us": 889.84,
+      "p80_us": 894.98,
+      "tflops": 19.24
+    },
+    {
+      "implementation": "pytorch_sdpa",
+      "shape": [
+        4,
+        16,
+        1024,
+        128,
+        1
+      ],
+      "dtype": "float16",
+      "median_us": 649.22,
+      "p20_us": 645.95,
+      "p80_us": 652.29,
+      "tflops": 26.46
+    }
+  ]
+}

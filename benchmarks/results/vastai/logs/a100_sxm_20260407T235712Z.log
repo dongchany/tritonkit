@@ -1,0 +1,87 @@
+[23:57:12] === TritonKit vast.ai benchmark run ===
+[23:57:12] GPU filter: gpu_name=A100_SXM4
+[23:57:12] GPU label: a100_sxm
+[23:57:12] Max price: $1.5/hr
+[23:57:12] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[23:57:12] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/a100_sxm
+[23:57:15] Account credit: $575.21
+[23:57:15] Searching for offers matching: gpu_name=A100_SXM4, max $1.5/hr
+[23:57:17] Selected offer: 34332797 at $0.7169/hr
+[23:57:17] Creating instance...
+[23:57:18] Instance created: 34336900
+[23:57:18] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741446, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775606239.7488632, "deleted_at": null}'}
+[23:57:20] Waiting for instance to be ready...
+[23:57:21]   status: None
+[23:57:27]   status: loading
+[23:57:34]   status: running
+[23:57:35] SSH: root@157.90.56.162:32757
+[23:57:35] Waiting for SSH to be reachable...
+[23:57:40] SSH ready
+[23:57:40] Cloning tritonkit and running benchmarks...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+Cloning into 'tritonkit'...
+=== checking existing torch ===
+2.5.1+cu124 12.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+tritonkit 0.1.0 requires torch>=2.10.0, but you have torch 2.5.1+cu124 which is incompatible.
+tritonkit 0.1.0 requires triton>=3.6.0, but you have triton 3.1.0 which is incompatible.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== environment ===
+NVIDIA A100-SXM4-40GB, 565.57.01, 210 MHz, 1215 MHz, 40960 MiB
+torch 2.5.1+cu124 cuda 12.4
+triton 3.1.0
+=== running benchmarks ===
+WARNING[XFORMERS]: xFormers can't load C++/CUDA extensions. xFormers was built for:
+    PyTorch 2.10.0+cu128 with CUDA 1208 (you have 2.5.1+cu124)
+    Python  3.10.19 (you have 3.11.10)
+  Please reinstall xformers (see https://github.com/facebookresearch/xformers#installing-xformers)
+  Memory-efficient attention, SwiGLU, sparse and more won't be available.
+  Set XFORMERS_MORE_DETAILS=1 for more details
+Results exported to /workspace/tritonkit/benchmarks/results/rmsnorm_nvidia_a100_sxm4_40gb.json
+Results exported to /workspace/tritonkit/benchmarks/results/swiglu_nvidia_a100_sxm4_40gb.json
+Results exported to /workspace/tritonkit/benchmarks/results/attention_nvidia_a100_sxm4_40gb.json
+Results exported to /workspace/tritonkit/benchmarks/results/gemm_nvidia_a100_sxm4_40gb.json
+Results exported to /workspace/tritonkit/benchmarks/results/quantize_nvidia_a100_sxm4_40gb.json
+Results exported to /workspace/tritonkit/benchmarks/results/softmax_nvidia_a100_sxm4_40gb.json
+
+=== benchmark summary ===
+Suite       Kernel       Measurements  Implementations                                              Export
+----------  ---------  --------------  -----------------------------------------------------------  -------------------------------------------------------
+norm        rmsnorm                36  liger, pytorch, pytorch_functional, tritonkit_rmsnorm_fused  benchmarks/results/rmsnorm_nvidia_a100_sxm4_40gb.json
+activation  swiglu                 18  pytorch, tritonkit_swiglu_fused                              benchmarks/results/swiglu_nvidia_a100_sxm4_40gb.json
+attention   attention              16  pytorch_sdpa, tritonkit_flash_attention                      benchmarks/results/attention_nvidia_a100_sxm4_40gb.json
+gemm        gemm                   24  pytorch_cublas, tritonkit_gemm_fp16                          benchmarks/results/gemm_nvidia_a100_sxm4_40gb.json
+quantize    quantize                8  torch_mm_fp16, tritonkit_int8_gemm                           benchmarks/results/quantize_nvidia_a100_sxm4_40gb.json
+softmax     softmax                12  pytorch, triton_softmax                                      benchmarks/results/softmax_nvidia_a100_sxm4_40gb.json
+total 48
+drwxr-xr-x 2 root root 4096 Apr  7 23:58 .
+drwxr-xr-x 4 root root   69 Apr  7 23:57 ..
+-rw-r--r-- 1 root root    0 Apr  7 23:57 .gitkeep
+-rw-r--r-- 1 root root 4853 Apr  7 23:58 attention_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 root root 6537 Apr  7 23:58 gemm_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 root root 2566 Apr  7 23:58 quantize_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 root root 9199 Apr  7 23:58 rmsnorm_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 root root 3698 Apr  7 23:58 softmax_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 root root 4917 Apr  7 23:58 swiglu_nvidia_a100_sxm4_40gb.json
+[23:58:51] Pulling results back...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+total 52
+drwxrwxr-x 2 dong dong 4096 Apr  8 07:58 .
+drwxrwxr-x 6 dong dong 4096 Apr  8 07:57 ..
+-rw-r--r-- 1 dong dong 4853 Apr  8 07:58 attention_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 dong dong 6537 Apr  8 07:58 gemm_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 dong dong 2566 Apr  8 07:58 quantize_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 dong dong 9199 Apr  8 07:58 rmsnorm_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 dong dong 3698 Apr  8 07:58 softmax_nvidia_a100_sxm4_40gb.json
+-rw-r--r-- 1 dong dong 4917 Apr  8 07:58 swiglu_nvidia_a100_sxm4_40gb.json
+[23:58:59] Benchmark complete. Trap will destroy instance now.
+[23:58:59] DESTROYING instance 34336900 (cost stops now)
+destroying instance 34336900.
+[23:59:05] Confirmed: instance 34336900 destroyed

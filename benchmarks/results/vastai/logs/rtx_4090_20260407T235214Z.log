@@ -1,0 +1,91 @@
+[23:52:14] === TritonKit vast.ai benchmark run ===
+[23:52:14] GPU filter: gpu_name=RTX_4090
+[23:52:14] GPU label: rtx_4090
+[23:52:14] Max price: $0.5/hr
+[23:52:14] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[23:52:14] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_4090
+[23:52:17] Account credit: $575.28
+[23:52:17] Searching for offers matching: gpu_name=RTX_4090, max $0.5/hr
+[23:52:19] Selected offer: 34119074 at $0.2672/hr
+[23:52:19] Creating instance...
+[23:52:21] Instance created: 34336718
+[23:52:21] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741441, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775605942.2439518, "deleted_at": null}'}
+[23:52:22] Waiting for instance to be ready...
+[23:52:23]   status: None
+[23:52:30]   status: None
+[23:52:36]   status: None
+[23:52:42]   status: loading
+[23:52:49]   status: loading
+[23:52:55]   status: loading
+[23:53:02]   status: running
+[23:53:03] SSH: root@90.224.159.6:41716
+[23:53:03] Waiting for SSH to be reachable...
+[23:53:07] SSH ready
+[23:53:07] Cloning tritonkit and running benchmarks...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+Cloning into 'tritonkit'...
+=== checking existing torch ===
+2.5.1+cu124 12.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+tritonkit 0.1.0 requires torch>=2.10.0, but you have torch 2.5.1+cu124 which is incompatible.
+tritonkit 0.1.0 requires triton>=3.6.0, but you have triton 3.1.0 which is incompatible.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== environment ===
+NVIDIA GeForce RTX 4090, 590.48.01, 210 MHz, 405 MHz, 24564 MiB
+torch 2.5.1+cu124 cuda 12.4
+triton 3.1.0
+=== running benchmarks ===
+WARNING[XFORMERS]: xFormers can't load C++/CUDA extensions. xFormers was built for:
+    PyTorch 2.10.0+cu128 with CUDA 1208 (you have 2.5.1+cu124)
+    Python  3.10.19 (you have 3.11.10)
+  Please reinstall xformers (see https://github.com/facebookresearch/xformers#installing-xformers)
+  Memory-efficient attention, SwiGLU, sparse and more won't be available.
+  Set XFORMERS_MORE_DETAILS=1 for more details
+Results exported to /workspace/tritonkit/benchmarks/results/rmsnorm_nvidia_geforce_rtx_4090.json
+Results exported to /workspace/tritonkit/benchmarks/results/swiglu_nvidia_geforce_rtx_4090.json
+Results exported to /workspace/tritonkit/benchmarks/results/attention_nvidia_geforce_rtx_4090.json
+Results exported to /workspace/tritonkit/benchmarks/results/gemm_nvidia_geforce_rtx_4090.json
+Results exported to /workspace/tritonkit/benchmarks/results/quantize_nvidia_geforce_rtx_4090.json
+Results exported to /workspace/tritonkit/benchmarks/results/softmax_nvidia_geforce_rtx_4090.json
+
+=== benchmark summary ===
+Suite       Kernel       Measurements  Implementations                                              Export
+----------  ---------  --------------  -----------------------------------------------------------  ---------------------------------------------------------
+norm        rmsnorm                36  liger, pytorch, pytorch_functional, tritonkit_rmsnorm_fused  benchmarks/results/rmsnorm_nvidia_geforce_rtx_4090.json
+activation  swiglu                 18  pytorch, tritonkit_swiglu_fused                              benchmarks/results/swiglu_nvidia_geforce_rtx_4090.json
+attention   attention              16  pytorch_sdpa, tritonkit_flash_attention                      benchmarks/results/attention_nvidia_geforce_rtx_4090.json
+gemm        gemm                   24  pytorch_cublas, tritonkit_gemm_fp16                          benchmarks/results/gemm_nvidia_geforce_rtx_4090.json
+quantize    quantize                8  torch_mm_fp16, tritonkit_int8_gemm                           benchmarks/results/quantize_nvidia_geforce_rtx_4090.json
+softmax     softmax                12  pytorch, triton_softmax                                      benchmarks/results/softmax_nvidia_geforce_rtx_4090.json
+total 48
+drwxr-xr-x 2 root root 4096 Apr  7 23:54 .
+drwxr-xr-x 4 root root   69 Apr  7 23:53 ..
+-rw-r--r-- 1 root root    0 Apr  7 23:53 .gitkeep
+-rw-r--r-- 1 root root 4856 Apr  7 23:53 attention_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 root root 6544 Apr  7 23:53 gemm_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 root root 2571 Apr  7 23:54 quantize_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 root root 9194 Apr  7 23:53 rmsnorm_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 root root 3693 Apr  7 23:54 softmax_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 root root 4918 Apr  7 23:53 swiglu_nvidia_geforce_rtx_4090.json
+[23:54:08] Pulling results back...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+total 52
+drwxrwxr-x 2 dong dong 4096 Apr  8 07:54 .
+drwxrwxr-x 4 dong dong 4096 Apr  8 07:46 ..
+-rw-r--r-- 1 dong dong 4856 Apr  8 07:54 attention_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 dong dong 6544 Apr  8 07:54 gemm_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 dong dong 2571 Apr  8 07:54 quantize_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 dong dong 9194 Apr  8 07:54 rmsnorm_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 dong dong 3693 Apr  8 07:54 softmax_nvidia_geforce_rtx_4090.json
+-rw-r--r-- 1 dong dong 4918 Apr  8 07:54 swiglu_nvidia_geforce_rtx_4090.json
+[23:54:16] Benchmark complete. Trap will destroy instance now.
+[23:54:16] DESTROYING instance 34336718 (cost stops now)
+destroying instance 34336718.
+[23:54:22] Confirmed: instance 34336718 destroyed

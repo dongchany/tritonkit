@@ -1,0 +1,64 @@
+[23:47:04] === TritonKit vast.ai benchmark run ===
+[23:47:04] GPU filter: gpu_name=RTX_4090
+[23:47:04] GPU label: rtx_4090
+[23:47:04] Max price: $0.5/hr
+[23:47:04] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[23:47:04] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/rtx_4090
+[23:47:07] Account credit: $575.30
+[23:47:07] Searching for offers matching: gpu_name=RTX_4090, max $0.5/hr
+[23:47:09] Selected offer: 26118542 at $0.2402/hr
+[23:47:09] Creating instance...
+[23:47:11] Instance created: 34336502
+[23:47:11] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741430, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775605632.598159, "deleted_at": null}'}
+[23:47:12] Waiting for instance to be ready...
+[23:47:14]   status: None
+[23:47:20]   status: None
+[23:47:27]   status: loading
+[23:47:33]   status: running
+[23:47:34] SSH: root@109.173.238.203:41350
+[23:47:34] Waiting for SSH to be reachable...
+[23:47:38] SSH ready
+[23:47:38] Cloning tritonkit and running benchmarks...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+Cloning into 'tritonkit'...
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torchaudio 2.5.1+cu124 requires torch==2.5.1, but you have torch 2.11.0 which is incompatible.
+torchvision 0.20.1+cu124 requires torch==2.5.1, but you have torch 2.11.0 which is incompatible.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+name, driver_version, clocks.current.sm [MHz], clocks.current.memory [MHz], memory.total [MiB]
+NVIDIA GeForce RTX 4090, 550.90.07, 210 MHz, 405 MHz, 24564 MiB
+torch 2.11.0+cu130 cuda 13.0
+triton 3.6.0
+/opt/conda/lib/python3.11/site-packages/torch/cuda/__init__.py:180: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12040). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+Traceback (most recent call last):
+  File "/workspace/tritonkit/benchmarks/run_all.py", line 45, in <module>
+    main()
+  File "/workspace/tritonkit/benchmarks/run_all.py", line 24, in main
+    result, output_path = runner()
+                          ^^^^^^^^
+  File "/workspace/tritonkit/benchmarks/suites/norm.py", line 47, in run_suite
+    raise RuntimeError("CUDA is required to run benchmarks.")
+RuntimeError: CUDA is required to run benchmarks.
+total 0
+drwxr-xr-x 2 root root 22 Apr  7 23:47 .
+drwxr-xr-x 4 root root 53 Apr  7 23:47 ..
+-rw-r--r-- 1 root root  0 Apr  7 23:47 .gitkeep
+[23:50:13] Pulling results back...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+scp: /workspace/tritonkit/benchmarks/results/*.json: No such file or directory
+total 8
+drwxrwxr-x 2 dong dong 4096 Apr  8 07:46 .
+drwxrwxr-x 4 dong dong 4096 Apr  8 07:46 ..
+[23:50:17] Benchmark complete. Trap will destroy instance now.
+[23:50:17] DESTROYING instance 34336502 (cost stops now)
+destroying instance 34336502.
+[23:50:23] Confirmed: instance 34336502 destroyed

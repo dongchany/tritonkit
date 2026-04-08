@@ -12,3 +12,4 @@ build/
 .pytest_cache/
 benchmarks/results/*.json
 !benchmarks/results/.gitkeep
+!benchmarks/results/vastai/**/*.json

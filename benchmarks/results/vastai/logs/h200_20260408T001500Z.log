@@ -1,0 +1,91 @@
+[00:15:00] === TritonKit vast.ai benchmark run ===
+[00:15:00] GPU filter: gpu_name=H200
+[00:15:00] GPU label: h200
+[00:15:00] Max price: $2.5/hr
+[00:15:00] Docker image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+[00:15:00] Results dir: /home/dong/workspace/triton-kernels/benchmarks/results/vastai/h200
+[00:15:04] Account credit: $575.02
+[00:15:04] Searching for offers matching: gpu_name=H200, max $2.5/hr
+[00:15:05] Selected offer: 34215295 at $2.3240/hr
+[00:15:05] Creating instance...
+[00:15:07] Instance created: 34337487
+[00:15:07] Attaching SSH key...
+{'success': True, 'msg': 'SSH key added to instance.', 'key': '{"id": 741475, "user_id": null, "default": null, "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7MHakE2V4oIIJnNRIImCqrgeRybnBAG7GRy1rRhBJI vastai-tritonkit-bench", "private_key": null, "created_at": 1775607308.5012338, "deleted_at": null}'}
+[00:15:08] Waiting for instance to be ready...
+[00:15:10]   status: None
+[00:15:16]   status: None
+[00:15:22]   status: loading
+[00:15:29]   status: loading
+[00:15:35]   status: loading
+[00:15:41]   status: loading
+[00:15:47]   status: running
+[00:15:49] SSH: root@35.94.136.78:43971
+[00:15:49] Waiting for SSH to be reachable...
+[00:15:51] SSH ready
+[00:15:51] Cloning tritonkit and running benchmarks...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+Cloning into 'tritonkit'...
+=== checking existing torch ===
+2.5.1+cu124 12.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+tritonkit 0.1.0 requires torch>=2.10.0, but you have torch 2.5.1+cu124 which is incompatible.
+tritonkit 0.1.0 requires triton>=3.6.0, but you have triton 3.1.0 which is incompatible.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== environment ===
+NVIDIA H200, 580.126.09, 345 MHz, 3201 MHz, 143771 MiB
+torch 2.5.1+cu124 cuda 12.4
+triton 3.1.0
+=== running benchmarks ===
+WARNING[XFORMERS]: xFormers can't load C++/CUDA extensions. xFormers was built for:
+    PyTorch 2.10.0+cu128 with CUDA 1208 (you have 2.5.1+cu124)
+    Python  3.10.19 (you have 3.11.10)
+  Please reinstall xformers (see https://github.com/facebookresearch/xformers#installing-xformers)
+  Memory-efficient attention, SwiGLU, sparse and more won't be available.
+  Set XFORMERS_MORE_DETAILS=1 for more details
+Results exported to /workspace/tritonkit/benchmarks/results/rmsnorm_nvidia_h200.json
+Results exported to /workspace/tritonkit/benchmarks/results/swiglu_nvidia_h200.json
+Results exported to /workspace/tritonkit/benchmarks/results/attention_nvidia_h200.json
+Results exported to /workspace/tritonkit/benchmarks/results/gemm_nvidia_h200.json
+Results exported to /workspace/tritonkit/benchmarks/results/quantize_nvidia_h200.json
+Results exported to /workspace/tritonkit/benchmarks/results/softmax_nvidia_h200.json
+
+=== benchmark summary ===
+Suite       Kernel       Measurements  Implementations                                              Export
+----------  ---------  --------------  -----------------------------------------------------------  ---------------------------------------------
+norm        rmsnorm                36  liger, pytorch, pytorch_functional, tritonkit_rmsnorm_fused  benchmarks/results/rmsnorm_nvidia_h200.json
+activation  swiglu                 18  pytorch, tritonkit_swiglu_fused                              benchmarks/results/swiglu_nvidia_h200.json
+attention   attention              16  pytorch_sdpa, tritonkit_flash_attention                      benchmarks/results/attention_nvidia_h200.json
+gemm        gemm                   24  pytorch_cublas, tritonkit_gemm_fp16                          benchmarks/results/gemm_nvidia_h200.json
+quantize    quantize                8  torch_mm_fp16, tritonkit_int8_gemm                           benchmarks/results/quantize_nvidia_h200.json
+softmax     softmax                12  pytorch, triton_softmax                                      benchmarks/results/softmax_nvidia_h200.json
+total 48
+drwxr-xr-x 2 root root 4096 Apr  8 00:16 .
+drwxr-xr-x 4 root root   69 Apr  8 00:15 ..
+-rw-r--r-- 1 root root    0 Apr  8 00:15 .gitkeep
+-rw-r--r-- 1 root root 4852 Apr  8 00:16 attention_nvidia_h200.json
+-rw-r--r-- 1 root root 6499 Apr  8 00:16 gemm_nvidia_h200.json
+-rw-r--r-- 1 root root 2552 Apr  8 00:16 quantize_nvidia_h200.json
+-rw-r--r-- 1 root root 9155 Apr  8 00:16 rmsnorm_nvidia_h200.json
+-rw-r--r-- 1 root root 3673 Apr  8 00:16 softmax_nvidia_h200.json
+-rw-r--r-- 1 root root 4888 Apr  8 00:16 swiglu_nvidia_h200.json
+[00:16:46] Pulling results back...
+Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!
+total 52
+drwxrwxr-x  2 dong dong 4096 Apr  8 08:16 .
+drwxrwxr-x 10 dong dong 4096 Apr  8 08:15 ..
+-rw-r--r--  1 dong dong 4852 Apr  8 08:16 attention_nvidia_h200.json
+-rw-r--r--  1 dong dong 6499 Apr  8 08:16 gemm_nvidia_h200.json
+-rw-r--r--  1 dong dong 2552 Apr  8 08:16 quantize_nvidia_h200.json
+-rw-r--r--  1 dong dong 9155 Apr  8 08:16 rmsnorm_nvidia_h200.json
+-rw-r--r--  1 dong dong 3673 Apr  8 08:16 softmax_nvidia_h200.json
+-rw-r--r--  1 dong dong 4888 Apr  8 08:16 swiglu_nvidia_h200.json
+[00:16:51] Benchmark complete. Trap will destroy instance now.
+[00:16:51] DESTROYING instance 34337487 (cost stops now)
+destroying instance 34337487.
+[00:16:57] Confirmed: instance 34337487 destroyed

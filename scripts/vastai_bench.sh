@@ -66,40 +66,48 @@ if ! $VASTAI show user 2>&1 | grep -q "id"; then
     exit 1
 fi
 
-CREDIT=$($VASTAI show user 2>&1 | grep -i credit | awk '{print $NF}')
+CREDIT=$($VASTAI show user --raw 2>/dev/null | python3 -c "
+import json, sys
+try:
+    d = json.loads(sys.stdin.read())
+    print(f\"{d.get('credit', 0):.2f}\")
+except Exception:
+    print('?')
+")
 log "Account credit: \$$CREDIT"
 
 # ==================== SEARCH FOR OFFER ====================
 log "Searching for offers matching: $GPU_FILTER, max \$$MAX_PRICE_PER_HOUR/hr"
 
-OFFER_JSON=$($VASTAI search offers "$GPU_FILTER verified=true rentable=true dph_total<$MAX_PRICE_PER_HOUR cuda_max_good>=12.0 disk_space>=$DISK_GB inet_down>=100" \
-    --order "dph_total" --raw 2>&1 | head -200)
+# Use --raw to get full JSON, write to tempfile to avoid truncation
+OFFER_JSON_FILE=$(mktemp)
+$VASTAI search offers "$GPU_FILTER verified=true rentable=true dph_total<$MAX_PRICE_PER_HOUR cuda_max_good>=12.6 disk_space>=$DISK_GB inet_down>=100 num_gpus=1" \
+    --order "dph_total" --raw > "$OFFER_JSON_FILE" 2>&1
 
-OFFER_ID=$(echo "$OFFER_JSON" | python3 -c "
-import json, sys
-try:
-    data = json.loads(sys.stdin.read())
-    if not data:
-        print('NONE')
-    else:
-        # Take cheapest verified offer
-        cheapest = data[0]
-        print(cheapest['id'])
-except Exception as e:
-    print(f'PARSE_ERROR: {e}', file=sys.stderr)
-    print('NONE')
+PARSE_RESULT=$(python3 -c "
+import json
+with open('$OFFER_JSON_FILE') as f:
+    try:
+        data = json.load(f)
+    except Exception as e:
+        print(f'NONE NONE PARSE_ERROR_{e}')
+        exit(0)
+if not data:
+    print('NONE NONE EMPTY')
+else:
+    o = data[0]
+    print(f\"{o['id']} {o['dph_total']:.4f} OK\")
 ")
+
+OFFER_ID=$(echo "$PARSE_RESULT" | awk '{print $1}')
+OFFER_PRICE=$(echo "$PARSE_RESULT" | awk '{print $2}')
+PARSE_STATUS=$(echo "$PARSE_RESULT" | awk '{print $3}')
+rm -f "$OFFER_JSON_FILE"
 
 if [[ "$OFFER_ID" == "NONE" || -z "$OFFER_ID" ]]; then
-    log "ERROR: No matching offers found"
+    log "ERROR: No matching offers found ($PARSE_STATUS)"
     exit 1
 fi
-
-OFFER_PRICE=$(echo "$OFFER_JSON" | python3 -c "
-import json, sys
-data = json.loads(sys.stdin.read())
-print(f\"{data[0]['dph_total']:.3f}\")
-")
 
 log "Selected offer: $OFFER_ID at \$$OFFER_PRICE/hr"
 
@@ -183,22 +191,34 @@ log "Cloning tritonkit and running benchmarks..."
 REMOTE_SCRIPT='
 set -e
 cd /workspace
-git clone https://github.com/dongchany/tritonkit.git || (cd tritonkit && git pull)
+[ -d tritonkit ] && rm -rf tritonkit
+git clone https://github.com/dongchany/tritonkit.git
 cd tritonkit
-pip install --quiet uv 2>&1 | tail -5
-pip install --quiet -e . 2>&1 | tail -5
-# Optional baselines
-pip install --quiet flag_gems gemlite 2>&1 | tail -5 || true
-pip install --quiet xformers --no-deps 2>&1 | tail -5 || true
-pip install --quiet bitsandbytes 2>&1 | tail -5 || true
-pip install --quiet liger-kernel 2>&1 | tail -5 || true
 
-nvidia-smi --query-gpu=name,driver_version,clocks.sm,clocks.mem,memory.total --format=csv
+# Use whatever torch is in the Docker image; only install missing deps
+echo "=== checking existing torch ==="
+python -c "import torch; print(torch.__version__, torch.version.cuda); assert torch.cuda.is_available(), \"CUDA not available\""
+
+# Install tritonkit without deps to avoid torch upgrade
+pip install --quiet --no-deps -e . 2>&1 | tail -3
+pip install --quiet tabulate 2>&1 | tail -3
+# Triton might be in image; install if missing
+python -c "import triton" 2>/dev/null || pip install --quiet triton 2>&1 | tail -3
+
+# Optional baselines (best effort, all skip on failure)
+pip install --quiet --no-deps flag_gems 2>&1 | tail -3 || true
+pip install --quiet --no-deps gemlite 2>&1 | tail -3 || true
+pip install --quiet --no-deps xformers 2>&1 | tail -3 || true
+pip install --quiet --no-deps liger-kernel 2>&1 | tail -3 || true
+
+echo "=== environment ==="
+nvidia-smi --query-gpu=name,driver_version,clocks.sm,clocks.mem,memory.total --format=csv,noheader
 python -c "import torch; print(\"torch\", torch.__version__, \"cuda\", torch.version.cuda)"
 python -c "import triton; print(\"triton\", triton.__version__)"
 
+echo "=== running benchmarks ==="
 mkdir -p benchmarks/results
-python benchmarks/run_all.py 2>&1 | tail -30
+python benchmarks/run_all.py 2>&1 | tail -40
 ls -la benchmarks/results/
 '
 

@@ -1,0 +1,339 @@
+{
+  "version": "0.1.0",
+  "kernel": "gemm",
+  "hardware": {
+    "gpu_name": "NVIDIA A100-SXM4-40GB",
+    "compute_capability": "8.0",
+    "driver_version": "565.57.01",
+    "memory_gb": 42.41,
+    "sm_count": 108,
+    "sm_clock_mhz": 1410,
+    "mem_clock_mhz": 1215,
+    "pcie_gen": "4",
+    "peak_bandwidth_gbps": 1549.45,
+    "peak_tflops_fp16": 226.61
+  },
+  "software": {
+    "triton": "3.1.0",
+    "cuda": "12.4",
+    "pytorch": "2.5.1+cu124",
+    "python": "3.11.10",
+    "tritonkit": "0.1.0"
+  },
+  "mode": "default",
+  "timestamp": "2026-04-07T23:58:40.877493+00:00",
+  "results": [
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        256,
+        256,
+        256
+      ],
+      "dtype": "float16",
+      "median_us": 184.32,
+      "p20_us": 183.3,
+      "p80_us": 184.32,
+      "tflops": 0.18
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        256,
+        256,
+        256
+      ],
+      "dtype": "float16",
+      "median_us": 183.3,
+      "p20_us": 183.3,
+      "p80_us": 184.32,
+      "tflops": 0.18
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        512,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 186.37,
+      "p20_us": 186.37,
+      "p80_us": 187.39,
+      "tflops": 1.44
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        512,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 186.37,
+      "p20_us": 185.34,
+      "p80_us": 186.37,
+      "tflops": 1.44
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "float16",
+      "median_us": 198.66,
+      "p20_us": 197.63,
+      "p80_us": 198.66,
+      "tflops": 10.81
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "float16",
+      "median_us": 195.58,
+      "p20_us": 195.58,
+      "p80_us": 196.61,
+      "tflops": 10.98
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 275.46,
+      "p20_us": 274.43,
+      "p80_us": 275.46,
+      "tflops": 62.37
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 256.0,
+      "p20_us": 256.0,
+      "p80_us": 256.0,
+      "tflops": 67.11
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 846.34,
+      "p20_us": 840.7,
+      "p80_us": 846.85,
+      "tflops": 162.39
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 773.12,
+      "p20_us": 772.1,
+      "p80_us": 776.19,
+      "tflops": 177.77
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        8192,
+        8192,
+        8192
+      ],
+      "dtype": "float16",
+      "median_us": 5639.17,
+      "p20_us": 5588.79,
+      "p80_us": 5640.19,
+      "tflops": 194.98
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        8192,
+        8192,
+        8192
+      ],
+      "dtype": "float16",
+      "median_us": 5038.08,
+      "p20_us": 5037.06,
+      "p80_us": 5039.1,
+      "tflops": 218.24
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        1,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 263.17,
+      "p20_us": 262.14,
+      "p80_us": 264.19,
+      "tflops": 0.34
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        1,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 265.22,
+      "p20_us": 264.19,
+      "p80_us": 266.24,
+      "tflops": 0.34
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        32,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 263.17,
+      "p20_us": 262.14,
+      "p80_us": 264.19,
+      "tflops": 10.97
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        32,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 266.24,
+      "p20_us": 264.19,
+      "p80_us": 267.26,
+      "tflops": 10.84
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        128,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 269.31,
+      "p20_us": 268.29,
+      "p80_us": 270.34,
+      "tflops": 42.86
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        128,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 287.74,
+      "p20_us": 287.74,
+      "p80_us": 288.77,
+      "tflops": 40.11
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        4096,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 1977.34,
+      "p20_us": 1976.32,
+      "p80_us": 1978.37,
+      "tflops": 186.8
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        4096,
+        11008,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 1813.5,
+      "p20_us": 1812.48,
+      "p80_us": 1813.5,
+      "tflops": 203.68
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        4096,
+        4096,
+        11008
+      ],
+      "dtype": "float16",
+      "median_us": 2018.3,
+      "p20_us": 2017.28,
+      "p80_us": 2019.33,
+      "tflops": 183.01
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        4096,
+        4096,
+        11008
+      ],
+      "dtype": "float16",
+      "median_us": 1923.58,
+      "p20_us": 1914.88,
+      "p80_us": 1925.12,
+      "tflops": 192.02
+    },
+    {
+      "implementation": "tritonkit_gemm_fp16",
+      "shape": [
+        4096,
+        14336,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 2553.86,
+      "p20_us": 2522.11,
+      "p80_us": 2555.9,
+      "tflops": 188.36
+    },
+    {
+      "implementation": "pytorch_cublas",
+      "shape": [
+        4096,
+        14336,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 2481.15,
+      "p20_us": 2459.65,
+      "p80_us": 2482.18,
+      "tflops": 193.88
+    }
+  ]
+}

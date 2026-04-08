@@ -1,0 +1,131 @@
+{
+  "version": "0.1.0",
+  "kernel": "quantize",
+  "hardware": {
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "compute_capability": "8.9",
+    "driver_version": "570.190",
+    "memory_gb": 16.73,
+    "sm_count": 76,
+    "sm_clock_mhz": 2865,
+    "mem_clock_mhz": 10801,
+    "pcie_gen": "4",
+    "peak_bandwidth_gbps": 673.13,
+    "peak_tflops_fp16": 106.88
+  },
+  "software": {
+    "triton": "3.1.0",
+    "cuda": "12.4",
+    "pytorch": "2.5.1+cu124",
+    "python": "3.11.10",
+    "tritonkit": "0.1.0"
+  },
+  "mode": "default",
+  "timestamp": "2026-04-08T00:07:41.496671+00:00",
+  "results": [
+    {
+      "implementation": "tritonkit_int8_gemm",
+      "shape": [
+        512,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 408.58,
+      "p20_us": 407.55,
+      "p80_us": 409.6,
+      "tflops": 0.66
+    },
+    {
+      "implementation": "torch_mm_fp16",
+      "shape": [
+        512,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 407.55,
+      "p20_us": 407.55,
+      "p80_us": 408.58,
+      "tflops": 0.66
+    },
+    {
+      "implementation": "tritonkit_int8_gemm",
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "float16",
+      "median_us": 420.35,
+      "p20_us": 419.84,
+      "p80_us": 420.86,
+      "tflops": 5.11
+    },
+    {
+      "implementation": "torch_mm_fp16",
+      "shape": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "float16",
+      "median_us": 440.32,
+      "p20_us": 439.94,
+      "p80_us": 441.34,
+      "tflops": 4.88
+    },
+    {
+      "implementation": "tritonkit_int8_gemm",
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 518.14,
+      "p20_us": 517.14,
+      "p80_us": 519.17,
+      "tflops": 33.16
+    },
+    {
+      "implementation": "torch_mm_fp16",
+      "shape": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 593.92,
+      "p20_us": 592.9,
+      "p80_us": 593.92,
+      "tflops": 28.93
+    },
+    {
+      "implementation": "tritonkit_int8_gemm",
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 1271.81,
+      "p20_us": 1271.04,
+      "p80_us": 1272.83,
+      "tflops": 108.07
+    },
+    {
+      "implementation": "torch_mm_fp16",
+      "shape": [
+        4096,
+        4096,
+        4096
+      ],
+      "dtype": "float16",
+      "median_us": 1713.12,
+      "p20_us": 1712.13,
+      "p80_us": 1713.15,
+      "tflops": 80.23
+    }
+  ]
+}

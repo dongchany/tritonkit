@@ -1,0 +1,195 @@
+{
+  "version": "0.1.0",
+  "kernel": "softmax",
+  "hardware": {
+    "gpu_name": "NVIDIA L40S",
+    "compute_capability": "8.9",
+    "driver_version": "580.95.05",
+    "memory_gb": 47.67,
+    "sm_count": 142,
+    "sm_clock_mhz": 2505,
+    "mem_clock_mhz": 9001,
+    "pcie_gen": "4",
+    "peak_bandwidth_gbps": 729.35,
+    "peak_tflops_fp16": 179.68
+  },
+  "software": {
+    "triton": "3.1.0",
+    "cuda": "12.4",
+    "pytorch": "2.5.1+cu124",
+    "python": "3.11.10",
+    "tritonkit": "0.1.0"
+  },
+  "mode": "default",
+  "timestamp": "2026-04-08T00:05:21.269601+00:00",
+  "results": [
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        1,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 376.83,
+      "p20_us": 375.81,
+      "p80_us": 377.86,
+      "throughput_gbps": 5.57
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        1,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 375.81,
+      "p20_us": 375.81,
+      "p80_us": 377.86,
+      "throughput_gbps": 5.58
+    },
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        1,
+        32,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 421.89,
+      "p20_us": 420.86,
+      "p80_us": 423.94,
+      "throughput_gbps": 79.53
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        1,
+        32,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 436.22,
+      "p20_us": 435.2,
+      "p80_us": 437.25,
+      "throughput_gbps": 76.92
+    },
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        4,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 384.0,
+      "p20_us": 382.98,
+      "p80_us": 385.02,
+      "throughput_gbps": 21.85
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        4,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 390.14,
+      "p20_us": 390.14,
+      "p80_us": 392.19,
+      "throughput_gbps": 21.5
+    },
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        4,
+        32,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 579.58,
+      "p20_us": 577.54,
+      "p80_us": 581.63,
+      "throughput_gbps": 231.58
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        4,
+        32,
+        512,
+        512
+      ],
+      "dtype": "float16",
+      "median_us": 596.99,
+      "p20_us": 594.94,
+      "p80_us": 598.02,
+      "throughput_gbps": 224.82
+    },
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        8,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 406.53,
+      "p20_us": 404.48,
+      "p80_us": 407.55,
+      "throughput_gbps": 41.27
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        8,
+        32,
+        128,
+        128
+      ],
+      "dtype": "float16",
+      "median_us": 408.58,
+      "p20_us": 406.53,
+      "p80_us": 409.6,
+      "throughput_gbps": 41.06
+    },
+    {
+      "implementation": "triton_softmax",
+      "shape": [
+        1,
+        32,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 1188.86,
+      "p20_us": 1182.72,
+      "p80_us": 1193.16,
+      "throughput_gbps": 451.58
+    },
+    {
+      "implementation": "pytorch",
+      "shape": [
+        1,
+        32,
+        2048,
+        2048
+      ],
+      "dtype": "float16",
+      "median_us": 1313.79,
+      "p20_us": 1312.77,
+      "p80_us": 1314.82,
+      "throughput_gbps": 408.64
+    }
+  ]
+}
